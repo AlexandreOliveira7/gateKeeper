@@ -16,7 +16,6 @@ export default createVuetify({
           gray100_dg: "#fbfbfb",
           gray400_dg: "#bfbfbf",
           gray500_dg: "#A2A2A2",
-          white: "#ffffff",
           lightGreen_dg: "#90ee90",
           green_dg: "#008000",
           red_dg: "#f44336",

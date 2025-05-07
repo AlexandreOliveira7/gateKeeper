@@ -1,5 +1,9 @@
 <template>
-  <p>hello world</p>
+  <div>
+    <ListEnterprises />
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+import ListEnterprises from "./_components/ListEnterprises.vue";
+</script>
