@@ -12,3 +12,9 @@
 <script setup>
 import HeaderEnterprises from "@/components/common/HeaderEnterprises.vue";
 </script>
+
+<style>
+.font-museo {
+  font-family: MuseoModerno, sans-serif;
+}
+</style>
