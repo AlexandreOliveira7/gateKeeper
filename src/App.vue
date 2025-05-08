@@ -2,16 +2,13 @@
   <v-app>
     <v-main class="bg-gray100_dg">
       <v-container class="pa-6" fluid>
-        <HeaderEnterprises />
         <router-view />
       </v-container>
     </v-main>
   </v-app>
 </template>
 
-<script setup>
-import HeaderEnterprises from "@/components/common/HeaderEnterprises.vue";
-</script>
+<script setup></script>
 
 <style>
 .font-museo {
@@ -29,5 +26,22 @@ import HeaderEnterprises from "@/components/common/HeaderEnterprises.vue";
 
 .v-data-table td {
   padding: 6px 16px !important;
+}
+
+.fileInput {
+  display: none;
+}
+
+.formContainModal {
+  height: 120px;
+  border-radius: 5px;
+  border: 2px dashed #bfbfbf;
+}
+
+.formContain {
+  height: 180px;
+  width: 700px;
+  border-radius: 5px;
+  border: 2px dashed #bfbfbf;
 }
 </style>

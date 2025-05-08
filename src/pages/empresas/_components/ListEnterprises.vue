@@ -15,6 +15,7 @@
 
 <script setup>
 import { ref } from "vue";
+
 const itensHeader = ref([
   { title: "CNPJ", key: "cnpj", align: "center" },
   { title: "Razão Social", key: "razao_social", align: "center" },

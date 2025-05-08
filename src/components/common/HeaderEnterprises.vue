@@ -6,7 +6,7 @@
           GateKeeper
         </p>
         <p class="font-weight-bold text-h6 text-xl-h5 mt-0 mb-0">
-          GateKeeper | <span class="text-brown_dg">Reconflex</span>
+          GateKeeper | <span class="text-brown_dg">{{ title }}</span>
         </p>
       </div>
     </v-col>
@@ -24,7 +24,13 @@
     </v-col>
   </v-row>
 </template>
-<script setup></script>
+<script setup>
+defineProps({
+  title: {
+    type: String,
+  },
+});
+</script>
 
 <style>
 .shadow {
