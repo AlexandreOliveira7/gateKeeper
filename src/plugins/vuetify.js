@@ -3,8 +3,13 @@ import "vuetify/styles";
 
 import { createVuetify } from "vuetify";
 import { aliases, mdi } from "vuetify/iconsets/mdi";
+import { pt } from "vuetify/locale"; // ✅ Adicionado aqui
 
 export default createVuetify({
+  locale: {
+    locale: "pt",
+    messages: { pt },
+  },
   theme: {
     defaultTheme: "light",
     themes: {

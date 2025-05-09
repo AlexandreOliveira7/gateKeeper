@@ -3,10 +3,10 @@
     <v-col cols="12" md="6">
       <div class="">
         <p class="font-weight-bold text-h5 text-xl-h4 font-museo mt-0 mb-0">
-          GateKeeper
+          GATEKEEPER
         </p>
         <p class="font-weight-bold text-h6 text-xl-h5 mt-0 mb-0">
-          GateKeeper | <span class="text-brown_dg">{{ title }}</span>
+          GATEKEEPER | <span class="text-brown_dg">{{ title }}</span>
         </p>
       </div>
     </v-col>

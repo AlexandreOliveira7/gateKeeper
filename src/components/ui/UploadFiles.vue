@@ -76,7 +76,7 @@
 
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
+import { filesService } from "@/services";
 
 const props = defineProps({
   url: { type: String, required: true },
@@ -84,7 +84,7 @@ const props = defineProps({
   accept: { type: String, default: ".txt,.xlsx" },
 });
 
-const emit = defineEmits(["upload-success", "upload-error"]);
+const emit = defineEmits(["uploadSuccess", "upload-error"]);
 
 const files = ref([]);
 
@@ -105,7 +105,7 @@ function removeFile(index) {
   files.value.splice(index, 1);
 }
 
-async function upload() {
+const upload = async () => {
   if (!files.value.length) return;
 
   const formData = new FormData();
@@ -114,11 +114,12 @@ async function upload() {
   });
 
   try {
-    const res = await axios.post(props.url, formData);
-    emit("upload-success", res.data);
+    const res = await filesService.uploadFile(props.url, formData);
+    alert(res.data.message);
+    emit("uploadSuccess", res.data);
     files.value = [];
   } catch (err) {
     emit("upload-error", err);
   }
-}
+};
 </script>

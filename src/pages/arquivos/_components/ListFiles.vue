@@ -6,56 +6,80 @@
         <template #trigger>
           <v-btn color="brown_dg" class="rounded-xl">Importar Arquivos</v-btn>
         </template>
-        <UploadFiles :url="'/teste'" :multiple="true" />
+        <UploadFiles
+          :url="'gatekeeper/upload_zip_xmls/'"
+          :multiple="false"
+          :accept="'.zip'"
+          @uploadSuccess="uploadSuccess"
+        />
       </Dialog>
     </div>
 
     <v-data-table
-      :headers="itensHeader"
-      :items="itens"
+      :headers="filesHeader"
+      :items="files"
       class="text-body-2 elevation-1 my-5"
       density="compact"
-      item-value="id"
-      hide-default-footer
+      item-value="key"
       hover
+      :items-per-page="5"
+      v-model:options="options"
+      locale="'pt'"
     >
       <template #item.status="{ item }">
-        <v-icon color="green" size="small">mdi-circle</v-icon>
-        <span class="ml-2">Importado</span>
+        <div class="d-flex align-center justify-center">
+          <v-icon
+            :color="item.status === 'Importado' ? 'green' : 'orange'"
+            size="11"
+            >mdi-circle</v-icon
+          >
+          <span class="ml-2">{{ item.status }}</span>
+        </div>
+      </template>
+      <template #item.acoes="{ item }">
+        <div class="d-flex align-center justify-center">
+          <v-icon small class="mx-1 cursor-pointer" color="red">
+            mdi-delete
+          </v-icon>
+        </div>
       </template>
     </v-data-table>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Dialog from "@/components/ui/Dialog.vue";
 import UploadFiles from "@/components/ui/UploadFiles.vue";
+import { filesService } from "@/services";
 
-const itensHeader = ref([
-  { title: "Importado em", key: "importado_em", align: "center" },
-  { title: "Tipo de Arquivo", key: "tipo_arquivo", align: "center" },
-  { title: "Período", key: "periodo", align: "center" },
-  { title: "Qtd. de Linhas", key: "qtd_linhas", align: "center" },
+const options = ref({
+  page: 1,
+  itemsPerPage: 5,
+});
+
+const filesHeader = ref([
+  { title: "Tipo", key: "tipo", align: "center" },
+  { title: "Importado em", key: "created_at", align: "center" },
+  { title: "Natureza", key: "natureza", align: "center" },
+  { title: "Data de Emissão", key: "data_emissao", align: "center" },
   { title: "Status", key: "status", align: "center" },
+  { title: "Ações", key: "acoes", align: "center", sortable: false },
 ]);
 
-const itens = ref([
-  {
-    id: 1,
-    importado_em: "07/05/2025 10:30",
-    tipo_arquivo: "Empresas",
-    periodo: "Abril/2025",
-    qtd_linhas: 1542,
-    status: "importado",
-  },
-  {
-    id: 2,
-    importado_em: "07/05/2025 10:45",
-    tipo_arquivo: "Funcionários",
-    periodo: "Abril/2025",
-    qtd_linhas: 3810,
-    status: "importado",
-  },
-]);
+const files = ref([]);
+
+const uploadSuccess = async () => {
+  try {
+    const res = await filesService.getFiles("/gatekeeper/xmls_data/");
+    files.value = res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+onMounted(async () => {
+  const res = await filesService.getFiles("/gatekeeper/xmls_data/");
+  files.value = res.data;
+});
 </script>
