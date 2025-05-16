@@ -44,4 +44,8 @@
   border-radius: 5px;
   border: 2px dashed #bfbfbf;
 }
+.dragOver {
+  border: 2px dashed #000;
+  background-color: #f0f0f0;
+}
 </style>

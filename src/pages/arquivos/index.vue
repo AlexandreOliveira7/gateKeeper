@@ -1,11 +1,13 @@
 <template>
   <div>
     <HeaderEnterprises title="Arquivos" />
-    <ListFiles />
+    <ListXmls />
+    <ListNotes />
   </div>
 </template>
 
 <script setup>
 import HeaderEnterprises from "@/components/common/HeaderEnterprises.vue";
-import ListFiles from "./_components/ListFiles.vue";
+import ListXmls from "./_components/ListXmls.vue";
+import ListNotes from "./_components/ListNotes.vue";
 </script>

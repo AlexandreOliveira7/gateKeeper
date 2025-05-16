@@ -1,15 +1,15 @@
 <template>
   <div class="shadow mt-16 pa-5">
     <div class="d-flex justify-space-between align-center w-100">
-      <p class="text-h6 font-weight-bold">Arquivos</p>
+      <p class="text-h6 font-weight-bold">ERP Notas</p>
       <Dialog title="Importar Arquivos">
         <template #trigger>
-          <v-btn color="brown_dg" class="rounded-xl">Importar Arquivos</v-btn>
+          <v-btn color="brown_dg" class="rounded-xl">Importar ERP Notas</v-btn>
         </template>
         <UploadFiles
-          :url="'gatekeeper/upload_zip_xmls/'"
+          :url="'gatekeeper/process_erp_notas/'"
           :multiple="false"
-          :accept="'.zip'"
+          :accept="'.xlsx'"
           @uploadSuccess="uploadSuccess"
         />
       </Dialog>
@@ -59,10 +59,10 @@ const options = ref({
 });
 
 const filesHeader = ref([
-  { title: "Tipo", key: "tipo", align: "center" },
-  { title: "Importado em", key: "created_at", align: "center" },
-  { title: "Natureza", key: "natureza", align: "center" },
-  { title: "Data de Emissão", key: "data_emissao", align: "center" },
+  { title: "Período", key: "periodo", align: "center" },
+  { title: "Importado em", key: "importado_em", align: "center" },
+  { title: "Quantidade de Linhas", key: "qtd", align: "center" },
+  { title: "Nome do arquivo", key: "nome_arquivo", align: "center" },
   { title: "Status", key: "status", align: "center" },
   { title: "Ações", key: "acoes", align: "center", sortable: false },
 ]);
@@ -71,7 +71,7 @@ const files = ref([]);
 
 const uploadSuccess = async () => {
   try {
-    const res = await filesService.getFiles("/gatekeeper/xmls_data/");
+    const res = await filesService.getFiles("/gatekeeper/erp_notas_data/");
     files.value = res.data;
   } catch (err) {
     console.error(err);
@@ -79,7 +79,7 @@ const uploadSuccess = async () => {
 };
 
 onMounted(async () => {
-  const res = await filesService.getFiles("/gatekeeper/xmls_data/");
+  const res = await filesService.getFiles("/gatekeeper/erp_notas_data/");
   files.value = res.data;
 });
 </script>

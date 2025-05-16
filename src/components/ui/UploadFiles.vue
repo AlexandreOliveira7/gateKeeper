@@ -68,10 +68,33 @@
         @click="upload"
         :disabled="!files.length"
       >
-        Fazer upload
+        {{ isSending ? "Enviando..." : "Fazer upload" }}
       </v-btn>
     </div>
   </div>
+  <v-card color="white" class="rounded-lg">
+    <v-snackbar
+      v-model="showToast"
+      :timeout="3000"
+      location="top right"
+      :multi-line="false"
+      :vertical="false"
+      color="white"
+      class="snackbar"
+    >
+      <div
+        class="pa-3"
+        :style="{
+          border: `2px solid ${snackInfo.color}`,
+          borderRadius: '6px',
+          color: snackColor,
+        }"
+      >
+        <p class="font-weight-bold">{{ snackInfo.title }}</p>
+        <p>{{ snackInfo.text }}</p>
+      </div>
+    </v-snackbar>
+  </v-card>
 </template>
 
 <script setup>
@@ -84,17 +107,28 @@ const props = defineProps({
   accept: { type: String, default: ".txt,.xlsx" },
 });
 
-const emit = defineEmits(["uploadSuccess", "upload-error"]);
+const emit = defineEmits(["uploadSuccess"]);
 
 const files = ref([]);
+const isSending = ref(false);
+const showToast = ref(false);
+const snackInfo = ref({
+  color: "",
+  title: "",
+  text: "",
+});
 
 function handleFileChange(e) {
   const selected = Array.from(e.target.files);
   files.value = props.multiple ? [...files.value, ...selected] : [selected[0]];
 }
 
-function dragAbout() {}
-function exitAreaDrag() {}
+const dragAbout = (event) => {
+  event.currentTarget.classList.add("dragOver");
+};
+const exitAreaDrag = (event) => {
+  event.currentTarget.classList.remove("dragOver");
+};
 
 function release(e) {
   const dropped = Array.from(e.dataTransfer.files);
@@ -105,21 +139,37 @@ function removeFile(index) {
   files.value.splice(index, 1);
 }
 
+const openToast = (title, text, color) => {
+  snackInfo.value.title = title;
+  snackInfo.value.text = text;
+  snackInfo.value.color = color;
+  showToast.value = true;
+};
+
 const upload = async () => {
   if (!files.value.length) return;
 
+  isSending.value = true;
   const formData = new FormData();
   files.value.forEach((file) => {
     formData.append(props.multiple ? "files" : "file", file);
   });
 
   try {
-    const res = await filesService.uploadFile(props.url, formData);
-    alert(res.data.message);
-    emit("uploadSuccess", res.data);
-    files.value = [];
+    await filesService.uploadFile(props.url, formData);
+    openToast(
+      "Arquivo enviado!",
+      "Seu arquivo foi enviado com sucesso",
+      "green"
+    );
+    emit("uploadSuccess");
   } catch (err) {
-    emit("upload-error", err);
+    openToast("Arquivo nao enviado!", "Erro ao enviar o arquivo", "red");
+  } finally {
+    isSending.value = false;
+    files.value = [];
   }
 };
 </script>
+
+<style scoped></style>
