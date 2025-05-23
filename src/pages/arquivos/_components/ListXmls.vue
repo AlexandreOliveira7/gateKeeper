@@ -7,7 +7,7 @@
           <v-btn color="brown_dg" class="rounded-xl">Importar XML</v-btn>
         </template>
         <UploadFiles
-          :url="'gatekeeper/upload_zip_xmls/'"
+          :url="'/api/gatekeeper/upload_zip_xmls/'"
           :multiple="false"
           :accept="'.zip'"
           @uploadSuccess="uploadSuccess"
@@ -70,7 +70,7 @@ const files = ref([]);
 
 const uploadSuccess = async () => {
   try {
-    const res = await filesService.getFiles("/gatekeeper/xmls_data/");
+    const res = await filesService.getFiles("/api/gatekeeper/get_xmls");
     files.value = res.data;
   } catch (err) {
     console.error(err);
@@ -78,7 +78,7 @@ const uploadSuccess = async () => {
 };
 
 onMounted(async () => {
-  const res = await filesService.getFiles("/gatekeeper/xmls_data/");
+  const res = await filesService.getFiles("/api/gatekeeper/get_xmls");
   files.value = res.data;
 });
 </script>

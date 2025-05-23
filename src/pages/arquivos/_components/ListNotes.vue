@@ -7,7 +7,7 @@
           <v-btn color="brown_dg" class="rounded-xl">Importar ERP Notas</v-btn>
         </template>
         <UploadFiles
-          :url="'gatekeeper/process_erp_notas/'"
+          :url="'/api/gatekeeper/upload_erp_notas/'"
           :multiple="false"
           :accept="'.xlsx'"
           @uploadSuccess="uploadSuccess"
@@ -71,7 +71,7 @@ const files = ref([]);
 
 const uploadSuccess = async () => {
   try {
-    const res = await filesService.getFiles("/gatekeeper/erp_notas_data/");
+    const res = await filesService.getFiles("/api/gatekeeper/get_erp_notas");
     files.value = res.data;
   } catch (err) {
     console.error(err);
@@ -79,7 +79,7 @@ const uploadSuccess = async () => {
 };
 
 onMounted(async () => {
-  const res = await filesService.getFiles("/gatekeeper/erp_notas_data/");
+  const res = await filesService.getFiles("/api/gatekeeper/get_erp_notas");
   files.value = res.data;
 });
 </script>
